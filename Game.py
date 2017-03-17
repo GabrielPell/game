@@ -1,6 +1,6 @@
 import sys, pygame
 import random
-
+from player import Player
 
 pygame.init()
 
@@ -20,79 +20,79 @@ sprgSmoke = pygame.sprite.Group()
 sprgMissileDebris = pygame.sprite.Group()
 
 
-class Player(pygame.sprite.Sprite):
-    def __init__(self, x, y, fps, mspf):
-        super(Player, self).__init__()
-        self.playLocX = x
-        self.playLocY = y
-        self.rightBorder = displayX - 15
-        self.moveSpeed = 7
-        self.rateOfFire = 8
-        self.frames = fps
-        self.fireDelay = (self.frames / self.rateOfFire) * mspf
-        self.fireStartTime = 0
-        self.isLeft = False
-        self.isRight = False
-        self.isShoot = False
-        self.image = pygame.image.load("Images/Spaceship.png")
-        self.rect = self.image.get_rect()
-        self.rect.center = (self.playLocX, self.playLocY)
-
-    def moveLeft(self):
-        if self.isLeft == True and self.rect.center >= (10, self.playLocY):
-            self.playLocX -= self.moveSpeed
-            self.rect.center = (self.playLocX, self.playLocY)
-
-    def moveRight(self):
-        if self.isRight == True and self.rect.center <= (displayX - 10, self.playLocY):
-            self.playLocX += self.moveSpeed
-            self.rect.center = (self.playLocX, self.playLocY)
-
-    def shootbull(self, t):
-
-        if self.isShoot == True:
-            self.playBull = PlayBullet(self.playLocX, self.playLocY)
-            sprgAll.add(self.playBull)
-            sprgBulls.add(self.playBull)
-
-    def shootMiss(self):
-        self.playMiss = PlayMissile(self.playLocX, self.playLocY)
-        sprgAll.add(self.playMiss)
-        sprgMiss.add(self.playMiss)
-
-    def moveBull(self):
-        for self.playBull in sprgBulls:
-            self.playBull.move()
-
-    def moveMiss(self, chrono):
-        for self.playMiss in sprgMiss:
-            self.playMiss.move()
-            self.playMiss.createSmoke(chrono)
-
-    def bindings(self, queue):
-        for event in queue:
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    self.isLeft = True
-                    self.isRight = False
-                if event.key == pygame.K_RIGHT:
-                    self.isRight = True
-                    self.isLeft = False
-                if event.key == pygame.K_z:
-                    self.isShoot = True
-                    self.fireStartTime = pygame.time.get_ticks()
-                    self.shootbull()
-                if event.key == pygame.K_x:
-                    self.fireStartTime = pygame.time.get_ticks()
-                    self.shootMiss()
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT:
-                    self.isLeft = False
-                if event.key == pygame.K_RIGHT:
-                    self.isRight = False
-                if event.key == pygame.K_z:
-                    self.isShoot = False
-                    self.fireStartTime = 0
+# class Player(pygame.sprite.Sprite):
+#     def __init__(self, x, y, fps, mspf):
+#         super(Player, self).__init__()
+#         self.playLocX = x
+#         self.playLocY = y
+#         self.rightBorder = displayX - 15
+#         self.moveSpeed = 7
+#         self.rateOfFire = 8
+#         self.frames = fps
+#         self.fireDelay = (self.frames / self.rateOfFire) * mspf
+#         self.fireStartTime = 0
+#         self.isLeft = False
+#         self.isRight = False
+#         self.isShoot = False
+#         self.image = pygame.image.load("Images/Spaceship.png")
+#         self.rect = self.image.get_rect()
+#         self.rect.center = (self.playLocX, self.playLocY)
+#
+#     def moveLeft(self):
+#         if self.isLeft == True and self.rect.center >= (10, self.playLocY):
+#             self.playLocX -= self.moveSpeed
+#             self.rect.center = (self.playLocX, self.playLocY)
+#
+#     def moveRight(self):
+#         if self.isRight == True and self.rect.center <= (displayX - 10, self.playLocY):
+#             self.playLocX += self.moveSpeed
+#             self.rect.center = (self.playLocX, self.playLocY)
+#
+#     def shootbull(self, t):
+#
+#         if self.isShoot == True:
+#             self.playBull = PlayBullet(self.playLocX, self.playLocY)
+#             sprgAll.add(self.playBull)
+#             sprgBulls.add(self.playBull)
+#
+#     def shootMiss(self):
+#         self.playMiss = PlayMissile(self.playLocX, self.playLocY)
+#         sprgAll.add(self.playMiss)
+#         sprgMiss.add(self.playMiss)
+#
+#     def moveBull(self):
+#         for self.playBull in sprgBulls:
+#             self.playBull.move()
+#
+#     def moveMiss(self, chrono):
+#         for self.playMiss in sprgMiss:
+#             self.playMiss.move()
+#             self.playMiss.createSmoke(chrono)
+#
+#     def bindings(self, queue):
+#         for event in queue:
+#             if event.type == pygame.KEYDOWN:
+#                 if event.key == pygame.K_LEFT:
+#                     self.isLeft = True
+#                     self.isRight = False
+#                 if event.key == pygame.K_RIGHT:
+#                     self.isRight = True
+#                     self.isLeft = False
+#                 if event.key == pygame.K_z:
+#                     self.isShoot = True
+#                     self.fireStartTime = pygame.time.get_ticks()
+#                     self.shootbull()
+#                 if event.key == pygame.K_x:
+#                     self.fireStartTime = pygame.time.get_ticks()
+#                     self.shootMiss()
+#             if event.type == pygame.KEYUP:
+#                 if event.key == pygame.K_LEFT:
+#                     self.isLeft = False
+#                 if event.key == pygame.K_RIGHT:
+#                     self.isRight = False
+#                 if event.key == pygame.K_z:
+#                     self.isShoot = False
+#                     self.fireStartTime = 0
 
 
 class PlayBullet(pygame.sprite.Sprite):
@@ -240,12 +240,27 @@ class MissleDebris(pygame.sprite.Sprite):
 
 class MainRun(object):
     def __init__(self):
-        self.Main()
+        state = {
+            'displayX': 2000,
+            'displayY': 1000,
+            'background': (0, 0, 0),
+            'WHITE': (255, 255, 255),
+            'GRAY': (127, 127, 127),
+            'window': pygame.display.set_mode((displayX, displayY)),
+            'surface': pygame.Surface((window.get_width(), window.get_height())).convert_alpha(),
+            'windowClock': pygame.time.Clock(),
+            'sprgAll': pygame.sprite.Group(),
+            'sprgBulls': pygame.sprite.Group(),
+            'sprgMiss': pygame.sprite.Group(),
+            'sprgSmoke': pygame.sprite.Group(),
+            'sprgMissileDebris': pygame.sprite.Group(),
+            }
+        self.Main(state)
 
-    def Main(self):
+    def Main(self, state):
         frameRate = 120
         msPerFrame = 1000/frameRate
-        player1 = Player(1000, 900, frameRate, msPerFrame)
+        player1 = Player(1000, 900, frameRate, msPerFrame, state)
         sprgAll.add(player1)
 
         while True:
