@@ -1,5 +1,6 @@
 import pygame
-from Game import PlayBullet, PlayMissile, MissileSmoke, MissleDebris
+from missile import PlayMissile
+#from Game import PlayBullet, PlayMissile, MissileSmoke, MissleDebris
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y, fps, mspf, state):
@@ -35,13 +36,13 @@ class Player(pygame.sprite.Sprite):
 
         if self.isShoot == True:
             self.playBull = PlayBullet(self.playLocX, self.playLocY)
-            sprgAll.add(self.playBull)
+            self.state['sprgAll'].add(self.playBull)
             state['sprgBulls'].add(self.playBull)
 
     def shootMiss(self):
         self.playMiss = PlayMissile(self.playLocX, self.playLocY)
-        sprgAll.add(self.playMiss)
-        sprgMiss.add(self.playMiss)
+        self.state['sprgAll'].add(self.playMiss)
+        self.state['sprgMiss'].add(self.playMiss)
 
     def moveBull(self):
         for self.playBull in self.state['sprgBulls']:
