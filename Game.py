@@ -439,8 +439,14 @@ class MainRun(object):
         msPerFrame = 1000/frameRate
         player1 = Player(1000, 900, frameRate, msPerFrame, state)
         sprgAll.add(player1)
+        # When you work with classes you have to instantiate them,
+        # which means you have to turn them into objects
+        # you do this the way I did on the three lines below.
+        # I instantiated them and assigned the new object to variables.
+        # Further down you can see where I used those variables
         play_missile = PlayMissile(state)
-        print(play_missile)
+        missile_smoke = MissileSmoke(state)
+        missile_debris = MissleDebris(state)
 
         while True:
             eventqueue = pygame.event.get()
@@ -455,10 +461,19 @@ class MainRun(object):
             player1.moveRight()
             player1.moveBull()
             player1.moveMiss(timer)
+            # I left your old method calls to show you the changes. 
+            # You needed to add the @staticmethod wrapper previously
+            # because you were not instantiating the class, so you didn't have 
+            # an actual object to make the call on. The @staticmethod wrapper 
+            # tells python to call the method directly on the class. 
+            # You should be able to remove the @staticmethod wrappers doing it this way
+            # This might help: https://julien.danjou.info/blog/2013/guide-python-static-class-abstract-methods
             # PlayMissile.checkExplode()
             play_missile.checkExplode()
-            MissileSmoke.moveall()
-            MissleDebris.moveall(timer)
+            # MissileSmoke.moveall()
+            missile_smoke.moveall()
+            # MissleDebris.moveall(timer)
+            missile_debris.moveall()
             player1.shootbull(timer)
 
             # if (pygame.time.get_ticks() - player1.fireStartTime) >= player1.fireDelay and player1.isShoot == True:
