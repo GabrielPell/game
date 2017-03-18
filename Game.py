@@ -439,6 +439,8 @@ class MainRun(object):
         msPerFrame = 1000/frameRate
         player1 = Player(1000, 900, frameRate, msPerFrame, state)
         sprgAll.add(player1)
+        play_missile = PlayMissile(state)
+        print(play_missile)
 
         while True:
             eventqueue = pygame.event.get()
@@ -453,7 +455,8 @@ class MainRun(object):
             player1.moveRight()
             player1.moveBull()
             player1.moveMiss(timer)
-            PlayMissile.checkExplode()
+            # PlayMissile.checkExplode()
+            play_missile.checkExplode()
             MissileSmoke.moveall()
             MissleDebris.moveall(timer)
             player1.shootbull(timer)

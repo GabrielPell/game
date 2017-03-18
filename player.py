@@ -5,7 +5,6 @@ from missile import PlayMissile
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y, fps, mspf, state):
         super(Player, self).__init__()
-        print state
         self.playLocX = x
         self.playLocY = y
         self.rightBorder = state['displayX'] - 15
